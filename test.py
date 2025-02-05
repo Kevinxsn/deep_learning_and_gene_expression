@@ -11,7 +11,8 @@ def fasta_to_tensor(fasta_file):
     seq_indices = [nucleotide_map.get(nt, 4) for nt in sequence]
     return torch.tensor(seq_indices).unsqueeze(0)  # Add batch dimension
 
-seq = fasta_to_tensor("./data_/genotype_sequences.fasta")
+seq = fasta_to_tensor("./data_/chr22_dnaseq.fasta")
+
 
 # Required length based on Enformer model (adjust as per your model's config) 
 required_length = 196608 
@@ -19,6 +20,9 @@ current_length = seq.shape[1] # Calculate padding needed
 if current_length < required_length: 
     padding_needed = required_length - current_length 
     seq = torch.nn.functional.pad(seq, (0, padding_needed), value=4) 
+if seq.shape[1] > required_length:
+    seq = seq[:, :required_length]  # Keep only the first 196608 bases
+print("Truncated sequence shape:", seq.shape)  # Expected: (1, 196608)s
 print("Padded sequence shape:", seq.shape) # Expected: (1, 196608)
 
 
@@ -40,12 +44,6 @@ target_tensor = torch.tensor(expression_values, dtype=torch.float32)
 # Ensure the target is in correct shape (batch_size, target_length, num_tracks)
 target_tensor = target_tensor.unsqueeze(0)  # Adding batch dimension
 
-#print("Target tensor shape:", target_tensor.shape)  # Should be (1, num_samples, num_tracks)
-# finetune enformer on a limited budget
-
-# print(torch.randint(0, 5, (1, 196_608 // 2,)).shape)
-# print(torch.randn(1, 200, 128).shape)
-
 
 # do your fine-tuning
 
@@ -61,11 +59,16 @@ model = HeadAdapterWrapper(
     post_transformer_embed = False   # by default, embeddings are taken from after the final pointwise block w/ conv -> gelu - but if you'd like the embeddings right after the transformer block with a learned layernorm, set this to True
 )#.cuda()
 
-#seq = torch.randint(0, 5, (1, 196_608 // 2,))#.cuda()
-#target = torch.randn(1, 200, 128)#.cuda()  # 128 tracks
-
-# print(seq.shape)
-# print(torch.unique(seq))
-
 loss = model(seq, target = target_tensor)
 loss.backward()
+
+torch.save(model, "fine_tuned_enformer.pth")
+print("Fine-tuned model saved successfully.")
+
+# Save the input sequence
+torch.save(seq, "fine_tuned_seq.pt")
+
+# Save the target tensor
+torch.save(target_tensor, "fine_tuned_targets.pt")
+
+print("Model, sequence, and targets saved successfully.")
