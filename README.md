@@ -7,7 +7,7 @@ This repository provides a pipeline for **fine-tuning Enformer**, a deep learnin
 - **Generating predictions** for new DNA sequences
 - **Evaluating model performance** using correlation metrics
 
-## 📂 Repository Structure
+## Repository Structure
 ### Data Files 
 [https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing]
 - `reference.fa` – Reference genome (hg38) used to extract DNA sequences.
@@ -25,13 +25,13 @@ This repository provides a pipeline for **fine-tuning Enformer**, a deep learnin
 - `fine_tuned_seq.pt` – The DNA sequence input used for fine-tuning.
 - `fine_tuned_targets.pt` – The corresponding gene expression target tensor.
 
-## 🛠 How to Use
+## How to Use
 1. **Prepare Data:** Convert genotype data to DNA sequences and extract expression data. 
 2. **Fine-Tune Model:** Train Enformer on processed data (`test.py`).
 3. **Generate Predictions:** Use the trained model to predict gene expression (`pred.py`).
 4. **Evaluate Performance:** Measure Pearson correlation between predicted and true values.
 
-## 🚀 Next Steps
+## Next Steps
 - **Expand dataset** to additional chromosomes.
 - **Optimize training parameters** for improved performance.
 - **Develop a batch inference pipeline** for large-scale genomic data.
