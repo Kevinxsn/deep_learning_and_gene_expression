@@ -9,8 +9,8 @@ This repository provides a pipeline for **fine-tuning Enformer**, a deep learnin
 
 ## Repository Structure
 ### Data Files 
-[https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing]
-- `reference.fa` – Reference genome (hg38) used to extract DNA sequences.
+- [Genotype and Expression data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
+- `reference.fa` – Reference genome [(hg38)](https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz) used to extract DNA sequences.
 - `genotype_sequences.vcf` – Genotyped variant calls for reconstructing individual-specific sequences.
 - `chr22_expression.bed` – Gene expression data for **Chromosome 22**, used as target labels.
 - `chr22_dnaseq.fasta` – Reconstructed DNA sequence for **Chromosome 22**, incorporating genetic variants.
