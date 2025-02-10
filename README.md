@@ -26,7 +26,7 @@ This repository provides a pipeline for **fine-tuning Enformer**, a deep learnin
 - `fine_tuned_targets.pt` – The corresponding gene expression target tensor.
 
 ## How to Use
-1. **Installation:** First, install the required dependencies: pip install torch enformer-pytorch pyfaidx cyvcf2 pandas numpy scipy
+1. **Installation:** First, install the required dependencies: `pip install torch enformer-pytorch pyfaidx cyvcf2 pandas numpy scipy`
 2. **Prepare Data:** Convert genotype data to DNA sequences and extract expression data. 
 3. **Fine-Tune Model:** Train Enformer on processed data (`test.py`).
 4. **Generate Predictions:** Use the trained model to predict gene expression (`pred.py`).
