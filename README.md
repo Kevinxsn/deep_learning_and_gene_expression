@@ -17,7 +17,7 @@ This repository provides a pipeline for **fine-tuning Enformer**, a deep learnin
 
 ### Scripts 
 - `data_wrangling.ipynb` – Prepares genomic data, extracts sequences, and processes gene expression values.
-- `fine_tune.py` – Fine-tunes Enformer using processed DNA sequences and gene expression targets.
+- `test.py` – Fine-tunes Enformer using processed DNA sequences and gene expression targets.
 - `pred.py` – Generates predictions using the fine-tuned model and evaluates performance.
 
 ### Saved Models & Checkpoints
