@@ -13,37 +13,49 @@ print("Fine-tuned model loaded successfully.")
 
 # Load the sequence and target
 seq = torch.load("fine_tuned_seq.pt")#.cuda()
-print(seq[:10])
+#print(seq[:10])
 target_tensor = torch.load("fine_tuned_targets.pt")#.cuda()
+#target_tensor = (target_tensor - target_tensor.mean()) / target_tensor.std()
+preds = model(seq)[0]
+#pred = (preds - preds.mean()) / preds.std()
 
 print(" data loaded successfully.")
 
-
+print(preds.shape)
 # Get predictions from the model
-# model.eval()
-# with torch.no_grad():
-#     predictions = model(seq)#['human']#.cpu().numpy()
-#     targets = target_tensor#.cpu().numpy()
+with torch.no_grad():
+    predictions = preds#.cpu().numpy()
+    targets =target_tensor#.cpu().numpy()
 
-# # Compute Pearson correlation coefficient
-# corr, _ = pearsonr(predictions.flatten(), targets.flatten())
+# Compute Pearson correlation coefficient
 
-# print(f"Pearson Correlation: {corr:.4f}")
+# import torch.nn.functional as F
+
+# Downsample predictions using adaptive pooling
+# predictions = F.adaptive_avg_pool2d(predictions, (574, 670))
+
+corr, _ = pearsonr(predictions.detach().numpy().flatten(), targets.detach().numpy().flatten())
+
+# print(predictions[:10])
+# print(targets[:10])
+# print(predictions.shape)
+# print(targets.shape)
+print(f"Pearson Correlation: {corr:.4f}")
 
 ########
-enformer = from_pretrained('EleutherAI/enformer-official-rough', use_tf_gamma = False)#.cuda()
-enformer.eval()
+# enformer = from_pretrained('EleutherAI/enformer-official-rough', use_tf_gamma = False)#.cuda()
+# enformer.eval()
 
-#data = torch.load('./data/test-sample.pt', map_location=torch.device('cpu'))
-#seq, target = data['sequence'], data['target']
+# #data = torch.load('./data/test-sample.pt', map_location=torch.device('cpu'))
+# #seq, target = data['sequence'], data['target']
 
-with torch.no_grad():
-    corr_coef = enformer(
-        seq,
-        target = target_tensor,
-        return_corr_coef = True,
-        head = 'human'
-    )
+# with torch.no_grad():
+#     corr_coef = enformer(
+#         seq,
+#         target = target_tensor,
+#         return_corr_coef = True,
+#         head = 'human'
+#     )
 
-print(corr_coef)
-assert corr_coef > 0.1
+# print(corr_coef)
+# assert corr_coef > 0.1

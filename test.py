@@ -2,6 +2,7 @@ from enformer_pytorch import seq_indices_to_one_hot
 import torch
 import pandas as pd
 import numpy as np
+import torch.nn.functional as F
 
 def fasta_to_tensor(fasta_file):
     nucleotide_map = {'A': 0, 'C': 1, 'G': 2, 'T': 3, 'N': 4}
@@ -15,7 +16,7 @@ seq = fasta_to_tensor("./data_/chr22_dnaseq.fasta")
 
 
 # Required length based on Enformer model (adjust as per your model's config) 
-required_length = 196608 
+required_length = 196608 #131072 
 current_length = seq.shape[1] # Calculate padding needed 
 if current_length < required_length: 
     padding_needed = required_length - current_length 
@@ -43,6 +44,14 @@ target_tensor = torch.tensor(expression_values, dtype=torch.float32)
 
 # Ensure the target is in correct shape (batch_size, target_length, num_tracks)
 target_tensor = target_tensor.unsqueeze(0)  # Adding batch dimension
+
+# padding = (0, 5313 - 670, 0, 896 - 574)  # (padding_left, padding_right, padding_top, padding_bottom)
+# target_padded = F.pad(target_tensor, padding, mode='constant', value=0)
+
+# Remove batch dimension if necessary
+# target_padded = target_padded.squeeze(0)
+
+# print(target_padded.shape)
 
 
 # do your fine-tuning
