@@ -3,6 +3,5 @@ layout: default
 title: Home
 ---
 
-# Welcome to My GitHub Pages Website!
-
-This site is built using the **Minimal** theme.
+# Deep Learning & Gene Expression
+Welcome to my GitHub Pages website for the DSC Capstone project.
