@@ -1,4 +1,4 @@
-# Enformer Usage for Gene Expression Prediction
+# Incorporate Deep Learning Model to Better Predict Individual Gene Expression
 
 ## Project Overview
 This repository provides a pipeline for **Enformer**, a deep learning model for **predicting gene expression from DNA sequences**. The project involves:
