@@ -1,29 +1,22 @@
-# Part 1: Enformer Usage for Gene Expression Prediction
+# Enformer Usage for Gene Expression Prediction
 
 ## Project Overview
 This repository provides a pipeline for **Enformer**, a deep learning model for **predicting gene expression from DNA sequences**. The project involves:
-- **Preprocessing genomic data** (FASTA, VCF, BED files)
-- **Fine-tuning Enformer** on specific gene expression datasets
+- **Preprocessing genomic data** (VCF, BED files)
 - **Generating predictions** for new DNA sequences
 - **Evaluating model performance** using correlation metrics
 
 ## Repository Structure
 ### Data Files 
 - [Genotype and Expression data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
-- `reference.fa` – Reference genome [(hg38)](https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz) used to extract DNA sequences.
-- `genotype_sequences.vcf` – Genotyped variant calls for reconstructing individual-specific sequences.
+- `38.fa` – Reference genome [(hg38)](https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz) used to extract DNA sequences.
+- `genotype_sequences22.vcf` – Genotyped variant calls for reconstructing individual-specific sequences on **Chromosome 22.**
 - `chr22_expression.bed` – Gene expression data for **Chromosome 22**, used as target labels.
-- `chr22_dnaseq.fasta` – Reconstructed DNA sequence for **Chromosome 22**, incorporating genetic variants.
 
 ### Scripts 
-- `data_wrangling.ipynb` – Prepares genomic data, extracts sequences, and processes gene expression values.
-- `test.py` – Fine-tunes Enformer using processed DNA sequences and gene expression targets.
-- `pred.py` – Generates predictions using the fine-tuned model and evaluates performance.
-
-### Saved Models & Checkpoints
-- `fine_tuned_enformer.pth` – The trained Enformer model after fine-tuning.
-- `fine_tuned_seq.pt` – The DNA sequence input used for fine-tuning.
-- `fine_tuned_targets.pt` – The corresponding gene expression target tensor.
+- `gtex_prs.ipynb` – Runs PRS on genes on chromosome 22 for comparison with Enformer.
+- `individual_prediction.py` – Recontructs sequence for with a specified individual's SNPs and runs the Enformer on the sequence for all genes on chromosome 22.
+- `gene_prediction.py` – Recontructs sequence for all individuals' SNPs for a singular gene and runs the Enformer on the sequence for all individuals for the gene.
 
 ## How to Use
 1. **Installation:** First, install the required dependencies: `pip install torch enformer-pytorch pyfaidx cyvcf2 pandas numpy scipy`
@@ -62,39 +55,37 @@ This section describes how to use the fine-tuned Enformer model to **predict gen
 
 | Filename | Description |
 |----------|-------------|
-| `reference.fa` | Reference genome (hg38) used as input for baseline predictions. |
+| `38.fa` | Reference genome (hg38) used as input for baseline predictions. |
 | `GTEx_v8_genotype_EUR_HM3.bed` | PLINK genotype data containing SNPs from GTEx. |
 | `GTEx_v8_genotype_EUR_HM3.bim` | SNP annotation file with genomic positions. |
 | `GTEx_v8_genotype_EUR_HM3.fam` | Sample metadata file. |
-| `genotype_sequences.fasta` | DNA sequences reconstructed from individual-specific genotypes. |
+
 
 ## **Scripts**
 | Script | Description |
 |--------|-------------|
-| `predict.py` | Runs Enformer to predict gene expression for reference and genotype-modified sequences. |
-| `compare_predictions.ipynb` | Computes the difference between predicted expression values of reference and variant sequences. |
+| `individual_prediction.py` | Runs Enformer to predict gene expression for reference and genotype-modified sequences. |
+| `gene_prediction.ipynb` | Computes the difference between predicted expression values of reference and variant sequences. |
 
 ## **Prediction Pipeline**
 ### **1. Prepare Input Sequences**
-- Extract **reference genome** sequences from `reference.fa`.
-- Convert PLINK genotype data into **modified DNA sequences** using `GTEx_v8_genotype_EUR_HM3.bed`.
-- Save modified sequences as `genotype_sequences.fasta`.
+- Extract chromosomal genotype and expression information from `BED` files. 
+- Extract **reference genome** sequences from `38.fa`.
+- Apply variants to reference genome using genotype information.
+- One hot encode the modified sequences and convert to PyTorch tensor.
 
 ### **2. Run Predictions**
-- Use the fine-tuned Enformer model to **predict gene expression** for both:
-  - The **original reference genome (hg38)**.
-  - The **genotype-altered sequences**.
+- Use the Enformer model to **predict gene expression** for both:
+  - The one-hot encoded **genotype-altered sequences**.
 - Store prediction results for all gene expression tracks.
 
 ### **3. Compare Predictions**
-- Compute **mean differences** across all tracks.
-- Identify genes where SNP modifications lead to **significant expression changes**.
-- Perform additional validation using **eQTL data** from GTEx to assess biological relevance.
+- Compute **mean expression** across all tracks.
+- Perform normalization and transform the mean predictions
+- Fit a Stacked Model to fine tune the pipeline 
 
 ## **Evaluation Metrics**
 - Pearson correlation between predicted and actual GTEx expression values.
-- Log fold-change in expression for SNP-altered sequences.
-- Statistical tests for SNPs with the largest impact on expression.
 
 ## **Next Steps**
 - Extend the prediction analysis to **disease-associated SNPs** linked to protein-coding genes.
