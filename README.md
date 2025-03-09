@@ -24,6 +24,8 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
 - `gtex_prs.ipynb` – Runs PRS on genes on chromosome 22 for comparison with Enformer.
 - `individual_prediction.py` – Recontructs sequence for with a specified individual's SNPs and runs the Enformer on the sequence for all genes on chromosome 22.
 - `gene_prediction.py` – Recontructs sequence for all individuals' SNPs for a singular gene and runs the Enformer on the sequence for all individuals for the gene.
+- `normalize_predictions.py` - Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.
+- `Analysis.ipynb` - Builds a Stacked model using the predictions from multiple individuals and evaluates performance.
 
 ## How to Use
 1. **Installation:** First, install the required dependencies: `pip install torch enformer-pytorch pyfaidx cyvcf2 pandas numpy scipy`
@@ -72,7 +74,9 @@ This section describes how to use the pre-trained Enformer model to **predict ge
 | Script | Description |
 |--------|-------------|
 | `individual_prediction.py` | Runs Enformer to predict gene expression for reference and genotype-modified sequences. |
-| `gene_prediction.ipynb` | Computes the difference between predicted expression values of reference and variant sequences. |
+| `gene_prediction.py` | Computes the difference between predicted expression values of reference and variant sequences. |
+| `normalize_predictions.py` |Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.|
+|`Analysis.ipynb` - Builds a Stacked model using the predictions from multiple individuals and evaluates performance. |
 
 ## **Prediction Pipeline**
 ### **1. Prepare Input Sequences**
