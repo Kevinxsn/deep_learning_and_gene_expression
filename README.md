@@ -6,6 +6,13 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
 - **Generating predictions** for new DNA sequences
 - **Evaluating model performance** using correlation metrics
 
+## Objectives
+- Evaluate the ability of pre-trained Enformer model to predict individual gene expression levels
+- Compare prediction results from Enformer and Polygenic Risk Scores on selected genes across samples to assess their relative effectiveness
+- Investigate how SNPs affect gene expression within the APOE locus using deep learning.
+- Compare eQTL results with deep learning predictions to validate transcriptional impact assessments.
+- Explore the integration of Polygenic Risk Scores (PRS) with machine learning for enhanced AD risk prediction
+
 ## Repository Structure
 ### Data Files 
 - [Genotype and Expression data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
@@ -42,13 +49,13 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
 - **Develop a batch inference pipeline** for large-scale genomic data.
 
 
-# **Gene Expression Prediction using Fine-Tuned Enformer**
+# **Part 1: Gene Expression Prediction using Pre-Trained Enformer**
 
 ## **Overview**
-This section describes how to use the fine-tuned Enformer model to **predict gene expression** and analyze the impact of genetic variation. Our approach involves:
+This section describes how to use the pre-trained Enformer model to **predict gene expression** and analyze the impact of genetic variation. Our approach involves:
 - **Using the reference genome (hg38) as input** for baseline predictions.
 - **Replacing specific genomic regions** with individual-specific genotypes derived from **GTEx_v8_genotype_EUR_HM3** PLINK data.
-- **Comparing predictions** between reference and genotype-altered sequences to assess the effects of SNPs.
+- **Comparing predictions** Evaluate Enformer predictions with measured gene expression values.
 
 ## **Data Files**
 📂 [Download Data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
@@ -93,3 +100,6 @@ This section describes how to use the fine-tuned Enformer model to **predict gen
 - Integrate experimental validation using **external eQTL datasets**.
 
 ---
+
+# **Part 2: Identifying Relationships Between SNPs and Gene Expression**
+... tbd
