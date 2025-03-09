@@ -76,7 +76,7 @@ This section describes how to use the pre-trained Enformer model to **predict ge
 | `individual_prediction.py` | Runs Enformer to predict gene expression for reference and genotype-modified sequences. |
 | `gene_prediction.py` | Computes the difference between predicted expression values of reference and variant sequences. |
 | `normalize_predictions.py` |Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.|
-|`Analysis.ipynb` - Builds a Stacked model using the predictions from multiple individuals and evaluates performance. |
+|`Analysis.ipynb` | Builds a Stacked model using the predictions from multiple individuals and evaluates performance. |
 
 ## **Prediction Pipeline**
 ### **1. Prepare Input Sequences**
