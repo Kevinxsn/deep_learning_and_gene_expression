@@ -24,12 +24,17 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
 | `GTEx_v8_genotype_EUR_HM3.fam` | Sample metadata file. |
 | `genotype_sequences.fasta` | DNA sequences reconstructed from individual-specific genotypes. |
 | `expression_summary.tsv` | Summary of predicted and actual expression values for selected genes. |
+| `chr22_expression.bed` | Gene expression data for **Chromosome 22**, used as target labels. |
 
 
 ## Repository Structure
 ### Data Files 
 - [Genotype and Expression data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
 - `38.fa` – Reference genome [(hg38)](https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz) used to extract DNA sequences.
+- `GTEx_v8_genotype_EUR_HM3.bed` | PLINK genotype data containing SNPs from GTEx.
+- `GTEx_v8_genotype_EUR_HM3.bim` | SNP annotation file with genomic positions.
+- `GTEx_v8_genotype_EUR_HM3.fam` | Sample metadata file.
+- `genotype_sequences.fasta` | DNA sequences reconstructed from individual-specific genotypes. 
 - `genotype_sequences22.vcf` – Genotyped variant calls for reconstructing individual-specific sequences on **Chromosome 22.**
 - `chr22_expression.bed` – Gene expression data for **Chromosome 22**, used as target labels.
 
@@ -37,12 +42,15 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
 - `gtex_prs.ipynb` – Runs PRS on genes on chromosome 22 for comparison with Enformer.
 - `individual_prediction.py` – Recontructs sequence for with a specified individual's SNPs and runs the Enformer on the sequence for all genes on chromosome 22.
 - `gene_prediction.py` – Recontructs sequence for all individuals' SNPs for a singular gene and runs the Enformer on the sequence for all individuals for the gene.
-- `normalize_predictions.py` - Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.
-- `Analysis.ipynb` - Builds a Stacked model using the predictions from multiple individuals and evaluates performance.
+- `part1_normalize_predictions.py` - Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.
+- `part1_analysis.ipynb` - Builds a Stacked model using the predictions from multiple individuals and evaluates performance and evaluates and individual gene's prediction across individuals. 
 
 ## How to Use
-1. **Installation:** First, install the required dependencies: `pip install torch enformer-pytorch pyfaidx cyvcf2 pandas numpy scipy`
-2. **Prepare Data:** Convert genotype data to DNA sequences and extract expression data.
+1. **Installation:** First, install the required dependencies:
+   ```
+   pip install torch enformer-pytorch pyfaidx cyvcf2 pandas numpy scipy seaborn matplotlib.pyplot
+   ```
+3. **Prepare Data:** Convert genotype data to DNA sequences and extract expression data.
    Extract data for specified chromosome as a Plink file. Throughout this project, we use chromosome 22. 
    ```
    ./plink2 --bfile ./data/GTEx_v8_genotype_EUR_HM3_exclude_dups.allchr.reorder --chr 22 --make-bed --out gtex_chr22
@@ -55,8 +63,8 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
    ```
    awk 'NR==1 || $1 == "chr1"' ./data/Whole_Blood.v8.normalized_expression.bed > ./data/chr22_expression.bed
    ```
-3. **Generate Predictions:** Use the trained model to predict gene expression (`individual_prediction.py` and `gene_prediction.py`).
-4. **Evaluate Performance:** Measure Pearson correlation between predicted and true values.
+4. **Generate Predictions:** Use the trained model to predict gene expression (`individual_prediction.py` and `gene_prediction.py`).
+5. **Evaluate Performance:** Measure Pearson correlation between predicted and true values.
 
 ## Next Steps
 - **Expand dataset** to additional chromosomes.
@@ -77,8 +85,9 @@ This section describes how to use the pre-trained Enformer model to **predict ge
 |--------|-------------|
 | `individual_prediction.py` | Runs Enformer to predict gene expression for reference and genotype-modified sequences. |
 | `gene_prediction.py` | Computes the difference between predicted expression values of reference and variant sequences. |
-| `normalize_predictions.py` |Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.|
-|`Analysis.ipynb` | Builds a Stacked model using the predictions from multiple individuals and evaluates performance. |
+| `part1_normalize_predictions.py` |Normalizes the `'true'` and `'mean_prediction'` for the specified summary files.|
+|`part1_Analysis.ipynb` | Builds a Stacked model using the predictions from multiple individuals and evaluates performance. |
+|`gtex_prs.ipynb` | Runs PRS on a single gene on chromosome 22 and compares with Enformer performance |
 
 ## **Prediction Pipeline**
 ### **1. Prepare Input Sequences**
