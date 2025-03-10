@@ -85,7 +85,7 @@ def run_enformer(individual_idx):
     with torch.no_grad():
         predictions = []
         for i in range(len(df["one_hot"])):
-            if i%2 == 0:
+            if i%25 == 0:
                 print(i)
             one_hot_seq = df["one_hot"].iloc[i]
             seq_input = one_hot_seq.unsqueeze(0).to(device)
@@ -94,4 +94,8 @@ def run_enformer(individual_idx):
             result = output["human"].cpu().numpy()
             result1 = np.mean(result, axis=1)
             predictions.append(result1)
+    out = pd.DataFrame({'output': predictions})
+    out['true'] = df[individual_idx]
+    out['mean_prediction'] = out['output'].apply(lambda x: x[0].mean())
+    out.to_pickle(f'./data_/sum_stats_{individual_idx}')
     return pd.DataFrame({'output': predictions})
