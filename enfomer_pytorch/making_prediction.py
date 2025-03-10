@@ -18,16 +18,22 @@ def make_prediction(sequence):
 
 
 ## chromosome
-chrom = 2
+chrom = 19
 ## number of SNPs
-number_snps = 5000
+number_snps = 1402
 ## result file path
 result_path = f'/projects/ps-renlab2/sux002/DSC180/local_testing/result/chr{chrom}_numer_{str(number_snps)}_result.csv'
 ##Shuffle or Not
-random_data = True
+random_data = False
+## Using specific SNPs
+custom_range_data = True
+custom_range_data_frame = '/projects/ps-renlab2/sux002/DSC180/local_testing/result/apoe_down5000kb_up10kb_snps.txt'
 
-
-whole_range_data = pd.read_csv('../../data/snp_sequence_ranges.txt', delimiter='\t')
+if custom_range_data == True:
+    whole_range_data = pd.read_csv(custom_range_data_frame, delimiter='\t')
+    
+else:
+    whole_range_data = pd.read_csv('../../data/snp_sequence_ranges.txt', delimiter='\t')
 print('data_loaded')
 
 
