@@ -125,12 +125,14 @@ This section presents how we utilized a **fine-tuned Enformer model** to investi
 - Validate our findings using **eQTL analysis**, assessing the consistency between deep learning-based predictions and established statistical models.
 
 ## **Scripts**
+
+Please  got to the folder [enformer_prediction](enfomer_prediction/) to find the scrips below. 
 | Script | Description |
 |--------|-------------|
-| `predict.py` | Runs Enformer to predict gene expression for reference and genotype-modified sequences. |
-| `compare_predictions.ipynb` | Computes the difference between predicted expression values of reference and variant sequences. |
-| `normalize_predictions.py` | Normalizes expression predictions for statistical comparison. |
-| `eqtl_analysis.py` | Performs eQTL analysis to validate deep learning predictions. |
+| [`whole_matrix_prediction`](enfomer_prediction/whole_matrix_prediction.py) | Runs Enformer to predict gene expression for reference and genotype-modified sequences and get the whole matrix as result.|
+| [`specific_tracks_prediction`](enfomer_prediction/specific_tracks_prediction.py) | Runs Enformer to predict gene expression for reference and genotype-modified sequences and get specific tracks as result.|
+| [`SNP_range_calc_scrips`](enfomer_prediction/SNP_range_calc_script.py) | This script is preparing SNP sequences for genomic feature extraction Enformer. |
+
 
 ## **Prediction Pipeline**
 ### **1. Prepare Input Sequences**
