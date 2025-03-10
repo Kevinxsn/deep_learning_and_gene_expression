@@ -13,6 +13,19 @@ This repository provides a pipeline for **Enformer**, a deep learning model for 
 - Compare eQTL results with deep learning predictions to validate transcriptional impact assessments.
 - Explore the integration of Polygenic Risk Scores (PRS) with machine learning for enhanced AD risk prediction
 
+## **Data Files**
+📂 [Download Data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
+
+| Filename | Description |
+|----------|-------------|
+| `38.fa` | Reference genome (hg38) used for baseline predictions. |
+| `GTEx_v8_genotype_EUR_HM3.bed` | PLINK genotype data containing SNPs from GTEx. |
+| `GTEx_v8_genotype_EUR_HM3.bim` | SNP annotation file with genomic positions. |
+| `GTEx_v8_genotype_EUR_HM3.fam` | Sample metadata file. |
+| `genotype_sequences.fasta` | DNA sequences reconstructed from individual-specific genotypes. |
+| `expression_summary.tsv` | Summary of predicted and actual expression values for selected genes. |
+
+
 ## Repository Structure
 ### Data Files 
 - [Genotype and Expression data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
@@ -59,17 +72,6 @@ This section describes how to use the pre-trained Enformer model to **predict ge
 - **Replacing specific genomic regions** with individual-specific genotypes derived from **GTEx_v8_genotype_EUR_HM3** PLINK data.
 - **Comparing predictions** Evaluate Enformer predictions with measured gene expression values.
 
-## **Data Files**
-📂 [Download Data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
-
-| Filename | Description |
-|----------|-------------|
-| `38.fa` | Reference genome (hg38) used as input for baseline predictions. |
-| `GTEx_v8_genotype_EUR_HM3.bed` | PLINK genotype data containing SNPs from GTEx. |
-| `GTEx_v8_genotype_EUR_HM3.bim` | SNP annotation file with genomic positions. |
-| `GTEx_v8_genotype_EUR_HM3.fam` | Sample metadata file. |
-
-
 ## **Scripts**
 | Script | Description |
 |--------|-------------|
@@ -112,18 +114,6 @@ This section presents how we utilized a **fine-tuned Enformer model** to investi
 - Predict gene expression using both **reference genome sequences** and **individual-specific genotypic sequences**.
 - Identify **the impact of SNPs** on transcription by comparing Enformer predictions for different genetic backgrounds.
 - Validate our findings using **eQTL analysis**, assessing the consistency between deep learning-based predictions and established statistical models.
-
-## **Data Files**
-📂 [Download Data](https://drive.google.com/drive/folders/1AtvTrPzwBOiXBU9UnPYDj1_iP2aka46q?usp=sharing)
-
-| Filename | Description |
-|----------|-------------|
-| `reference.fa` | Reference genome (hg38) used for baseline predictions. |
-| `GTEx_v8_genotype_EUR_HM3.bed` | PLINK genotype data containing SNPs from GTEx. |
-| `GTEx_v8_genotype_EUR_HM3.bim` | SNP annotation file with genomic positions. |
-| `GTEx_v8_genotype_EUR_HM3.fam` | Sample metadata file. |
-| `genotype_sequences.fasta` | DNA sequences reconstructed from individual-specific genotypes. |
-| `expression_summary.tsv` | Summary of predicted and actual expression values for selected genes. |
 
 ## **Scripts**
 | Script | Description |
