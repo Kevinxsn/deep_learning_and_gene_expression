@@ -147,11 +147,41 @@ Please  got to the folder [enformer_prediction](enfomer_prediction/) to find the
   - The **genotype-altered sequences**.
 - Store prediction results for all gene expression tracks.
 
+How to Run the Script
+
+You can run this script from the command line with the required arguments.
+
+Basic Example
+```
+python script.py --chrom 19 --number_snps 1402 --result_path ./result_chr19_tracks.csv
+```
+With Custom SNPs File
+```
+python script.py --chrom 19 --number_snps 1402 --result_path ./result_chr19_tracks.csv --custom_range_data --custom_range_data_frame ./apoe_down5000kb_up10kb_snps.txt
+```
+With Randomized SNPs
+```
+python script.py --chrom 19 --number_snps 1402 --result_path ./result_chr19_tracks.csv --random_data
+```
+#### Explanation of Arguments
+
+| Argument                     | Type  | Required  | Description  |
+|------------------------------|-------|-----------|--------------|
+| `--chrom`                    | int   | ✅ Yes    | The chromosome number to process. |
+| `--number_snps`              | int   | ✅ Yes    | Number of SNPs to process. |
+| `--result_path`              | str   | ✅ Yes    | Path to save the results CSV file. |
+| `--random_data`              | flag  | ❌ No     | If included, the SNP data will be shuffled before processing. |
+| `--custom_range_data`        | flag  | ❌ No     | If included, a custom SNPs file will be used instead of the default. |
+| `--custom_range_data_frame`  | str   | ❌ No (unless `--custom_range_data` is used) | Path to the custom SNPs file. |
+
+
 ### **3. Compare Predictions**
 - Compute **mean expression values** across all tracks.
 - Analyze **log fold-change in expression** between reference and genotype-modified sequences.
 - Identify SNPs that cause **significant expression changes**.
 - Validate key findings using **GTEx eQTL results**, checking if SNPs with high predicted impact align with statistically significant eQTL signals.
+
+Pleae refer to [eQTL_apoe.ipynb](enformer_result_data_analysis/eQTL_apoe.ipynb) to see how to run eQTL of the gene APOE. 
 
 ### **4. SNP Impact Quantification**
 To assess the functional impact of SNPs, we:
@@ -160,6 +190,8 @@ To assess the functional impact of SNPs, we:
   - **Full prediction matrix** (all Enformer tracks).
   - **Selected tracks correlated with gene expression** (e.g., chromatin accessibility and histone marks).
 - Overlapped these results with **top eQTL SNPs**, identifying **41 shared SNPs** between Enformer’s predictions and statistical eQTL analysis.
+
+Pleae refer to [result_analysis.ipynb](enformer_result_data_analysis/result_analysis.ipynb) to see the process of data analysis and making graphes. 
 
 ## **Evaluation Metrics**
 - **Pearson correlation** between predicted and actual GTEx expression values.
@@ -171,6 +203,7 @@ To assess the functional impact of SNPs, we:
 - SNPs identified through **both Enformer and eQTL** were mostly located in **500 kb downstream of the APOE locus**, suggesting regulatory relevance.
 - **Full prediction matrix vs. eQTL overlap:** **41 SNPs** matched.
 - **Selected prediction tracks vs. eQTL overlap:** **33 SNPs** matched.
+
 
 These findings indicate that **deep learning models can complement statistical eQTL methods**, helping to pinpoint SNPs with strong regulatory effects.
 
